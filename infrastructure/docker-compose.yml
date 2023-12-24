@@ -26,6 +26,13 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
+  auth_postgres:
+    container_name: auth_postgres
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    env_file:
+      - docker.env
 volumes:
   kafka-volume:
   zookeeper-volume:

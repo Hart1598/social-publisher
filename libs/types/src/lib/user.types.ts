@@ -8,3 +8,14 @@ export enum UserStatus {
   BLOCKED = 'blocked',
   EMAIL_VERIFICATION = 'email_verification',
 }
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  passwordHash: string;
+  role: UserRole;
+  status: UserStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
