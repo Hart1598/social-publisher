@@ -1,4 +1,4 @@
-import { apiEnvSchema } from "@app/validators";
+import { authEnvSchema } from "@app/validators";
 import { envFilePath } from "./env.config";
 import dotenv from 'dotenv';
 import { envPath } from './env.config';
@@ -9,7 +9,7 @@ export const getConfigModule = () => {
   return {
     envFilePath,
     validate: () => {
-      return apiEnvSchema.parse(process.env);
+      return authEnvSchema.parse(process.env);
     },
     isGlobal: true,
   }

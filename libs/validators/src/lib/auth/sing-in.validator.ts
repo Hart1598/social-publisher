@@ -6,5 +6,5 @@ export const singInSchema = z.object({
 }).required()
 
 export const singInResponseSchema = z.object({
-  token: z.string()
+  accessToken: z.string()
 }).required()

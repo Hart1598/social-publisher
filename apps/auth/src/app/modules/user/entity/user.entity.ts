@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from '@app/types';
+import { JWTUser, PublicUser, UserRole, UserStatus } from '@app/types';
 import { PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Entity } from 'typeorm';
 import { User as IUser } from '@app/types'
 
@@ -27,4 +27,22 @@ export abstract class User implements IUser {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    toJWT(): JWTUser {
+      return {
+        id: this.id,
+        email: this.email,
+        username: this.username,
+        role: this.role,
+        status: this.status,
+      }
+    }
+
+    toPublic(): PublicUser {
+      return {
+        ...this.toJWT(),
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt,
+      }
+    }
 }
