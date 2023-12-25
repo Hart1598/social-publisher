@@ -1,6 +1,6 @@
-import { ConflictException, ForbiddenException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { UserService } from "../../user/services/user.service";
-import { JwtTokenService } from "@app/utils";
+import { ExceptionService, JwtTokenService } from "@app/utils";
 import { CryptoService } from "./crypto.service";
 import { UserRole, UserStatus } from "@app/types";
 
@@ -23,6 +23,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtTokenService: JwtTokenService,
     private readonly cryptoService: CryptoService,
+    private readonly exceptionService: ExceptionService
     ) {}
 
   async registerByEmail(params: RegisterByEmailParams) {
@@ -30,7 +31,7 @@ export class AuthService {
 
     const isExist = await this.userService.isExistByEmail(email);
 
-    if(isExist) throw new ConflictException()
+    if(isExist) throw this.exceptionService.conflict()
 
     const passwordHash = await this.cryptoService.hash(password)
 
@@ -50,11 +51,11 @@ export class AuthService {
 
     const user = await this.userService.findByEmail(email);
 
-    if(user) throw new ConflictException()
+    if(user) throw this.exceptionService.conflict()
 
     const isValidPassword = await this.cryptoService.compare(password, user.passwordHash);
 
-    if(!isValidPassword) throw new ForbiddenException()
+    if(!isValidPassword) throw this.exceptionService.forbidden()
 
     const accessToken = await this.jwtTokenService.createToken(user.toJWT())
 
