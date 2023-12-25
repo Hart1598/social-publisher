@@ -19,7 +19,7 @@ export class AuthorizeCommandController  {
   }
 
   @MessagePattern(SignUp.topic)
-  async signUp(@Payload() params: SignUpDto): Promise<SignIn.Response> {
+  async signUp(@Payload() params: SignUpDto): Promise<SignUp.Response> {
     const { email, password, username } = params;
 
     const tokens = await this.authService.registerByEmail({ email, password, username })
@@ -28,7 +28,7 @@ export class AuthorizeCommandController  {
   }
 
   @MessagePattern(SignUpAdmin.topic)
-  async signUpAdmin(@Payload() params: SignUpAdminDto): Promise<SignIn.Response> {
+  async signUpAdmin(@Payload() params: SignUpAdminDto): Promise<SignUpAdmin.Response> {
     const { email, password, username } = params;
 
     const tokens = await this.authService.registerByEmail({ email, password, username, role: UserRole.ADMIN })
