@@ -6,6 +6,9 @@ export const EVENT_BUS_SERVICE_CLIENT = 'EVENT_BUS_SERVICE_CLIENT'
 
 export const AUTH_CONSUMER_GROUP_ID = 'AUTH_CONSUMER_GROUP_ID'
 
+export const NOTIFICATION_CONSUMER_GROUP_ID = 'NOTIFICATION_CONSUMER_GROUP_ID'
+
+
 export const ALLOWED_ATTRIBUTES_KEYS: AllowedAuthUserAttributeKey[] = [
   'allowedRoles',
   'allowedStatuses',

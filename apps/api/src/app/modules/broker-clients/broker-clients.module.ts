@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { v4 } from "uuid";
-import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList } from "@app/contracts";
+import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode } from "@app/contracts";
 
-export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic];
+export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic, RefreshToken.topic, VerifyAuthCode.topic];
 
 @Module({
   imports: [
