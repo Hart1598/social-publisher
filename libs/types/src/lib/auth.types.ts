@@ -7,3 +7,20 @@ export interface JWTUser {
   role: UserRole;
   status: UserStatus;
 }
+
+export enum AuthDecoratorKey {
+  PUBLIC = 'isPublic',
+  PROTECTED = 'isProtected',
+}
+
+export type AllowedAuthUserAttributes = {
+  allowedRoles?: UserRole[];
+  allowedStatuses?: UserStatus[];
+};
+
+export type AllowedAuthUserAttributeKey = keyof AllowedAuthUserAttributes;
+
+export enum AuthStrategyType {
+  JWT_AUTH = 'jwt-auth',
+}
+
