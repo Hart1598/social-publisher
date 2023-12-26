@@ -1,8 +1,8 @@
 import { AllowedAuthUserAttributeKey, AllowedAuthUserAttributes, UserRole, UserStatus } from "@app/types";
 
-export const AUTH_SERVICE = 'AUTH_SERVICE'
+export const EVENT_BUS_SERVICE = 'EVENT_BUS_SERVICE'
 
-export const AUTH_SERVICE_CLIENT = 'AUTH_SERVICE_CLIENT'
+export const EVENT_BUS_SERVICE_CLIENT = 'EVENT_BUS_SERVICE_CLIENT'
 
 export const AUTH_CONSUMER_GROUP_ID = 'AUTH_CONSUMER_GROUP_ID'
 

@@ -23,4 +23,3 @@ export type AllowedAuthUserAttributeKey = keyof AllowedAuthUserAttributes;
 export enum AuthStrategyType {
   JWT_AUTH = 'jwt-auth',
 }
-

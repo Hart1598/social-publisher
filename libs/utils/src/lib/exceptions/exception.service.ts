@@ -24,4 +24,8 @@ export class ExceptionService {
   forbidden() {
     throw new RpcException(new RpcErrorMessage('Forbidden', 403));
   }
+
+  notFound() {
+    throw new RpcException(new RpcErrorMessage('Not found', 404));
+  }
 }

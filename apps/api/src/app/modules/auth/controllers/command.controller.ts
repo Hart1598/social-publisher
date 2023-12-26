@@ -1,4 +1,4 @@
-import { AUTH_SERVICE } from "@app/constants";
+import { EVENT_BUS_SERVICE } from "@app/constants";
 import { SignIn, SignUp, SignUpAdmin } from "@app/contracts";
 import { SignInDto, SignUpAdminDto, SignUpDto } from "@app/dtos";
 import { Body, Controller, Inject, Post } from "@nestjs/common";
@@ -9,7 +9,7 @@ import { authServiceTopics } from "../../broker-clients/broker-clients.module";
 
 @Controller()
 export class AuthCommandController {
-  constructor(@Inject(AUTH_SERVICE) private readonly client: ClientKafka) { }
+  constructor(@Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
     const subscribeTopicKeys = authServiceTopics

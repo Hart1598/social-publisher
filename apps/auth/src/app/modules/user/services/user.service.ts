@@ -1,5 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 import { User } from "../entity/user.entity";
 import { Injectable } from "@nestjs/common";
 
@@ -47,5 +47,13 @@ export class UserService {
       take,
       skip,
     })
+  }
+
+  updateUserById(userId: string, user: Partial<User>) {
+    const options: FindOptionsWhere<User> = {
+      id: userId
+    }
+
+    return this.usersRepository.update(options, user);
   }
 }
