@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { AUTH_SERVICE, AUTH_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
+import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { v4 } from "uuid";
-import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList } from "@app/contracts";
+import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode } from "@app/contracts";
 
-export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic];
+export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic, RefreshToken.topic, VerifyAuthCode.topic];
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic,
       isGlobal: true,
       clients: [
         {
-          name: AUTH_SERVICE,
+          name: EVENT_BUS_SERVICE,
           useFactory: async (configService: ConfigService) => {
             const broker = configService.getOrThrow<string>('KAFKA_BROKER');
 
@@ -22,7 +22,7 @@ export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic,
               transport: Transport.KAFKA,
               options: {
                 client: {
-                  clientId: AUTH_SERVICE_CLIENT,
+                  clientId: EVENT_BUS_SERVICE_CLIENT,
                   brokers: [broker],
                 },
                 consumer: {

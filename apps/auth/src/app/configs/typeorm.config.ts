@@ -5,10 +5,11 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { envPath } from './env.config';
 import { User } from '../modules/user/entity/user.entity';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { AuthCode } from '../modules/auth-code/entity';
 
 dotenvConfig({ path: envPath });
 
-const entities = [User];
+const entities = [User, AuthCode];
 
 
 const baseConfig: TypeOrmModuleOptions = {

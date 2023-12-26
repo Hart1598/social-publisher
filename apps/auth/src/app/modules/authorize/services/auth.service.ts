@@ -23,11 +23,11 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtTokenService: JwtTokenService,
     private readonly cryptoService: CryptoService,
-    private readonly exceptionService: ExceptionService
+    private readonly exceptionService: ExceptionService,
     ) {}
 
   async registerByEmail(params: RegisterByEmailParams) {
-    const { email, username, password, role = UserRole.USER, status = UserStatus.ACTIVE } = params;
+    const { email, username, password, role = UserRole.USER, status = UserStatus.EMAIL_VERIFICATION } = params;
 
     const isExist = await this.userService.isExistByEmail(email);
 
@@ -42,6 +42,19 @@ export class AuthService {
     const accessToken = await this.jwtTokenService.createToken(user.toJWT())
 
     return {
+      user,
+      accessToken
+    }
+  }
+
+  async refreshTokenByUserId(userId: string) {
+    const user = await this.userService.findById(userId);
+
+    if(!user) throw this.exceptionService.notFound()
+
+    const accessToken = await this.jwtTokenService.createToken(user.toJWT())
+
+    return {
       accessToken
     }
   }
@@ -51,7 +64,7 @@ export class AuthService {
 
     const user = await this.userService.findByEmail(email);
 
-    if(!user) throw this.exceptionService.conflict()
+    if(!user) throw this.exceptionService.notFound()
 
     const isValidPassword = await this.cryptoService.compare(password, user.passwordHash);
 

@@ -1,15 +1,15 @@
-import { AUTH_SERVICE } from "@app/constants";
-import { SignIn, SignUp, SignUpAdmin } from "@app/contracts";
+import { EVENT_BUS_SERVICE } from "@app/constants";
+import { RefreshToken, SignIn, SignUp, SignUpAdmin } from "@app/contracts";
 import { SignInDto, SignUpAdminDto, SignUpDto } from "@app/dtos";
-import { Body, Controller, Inject, Post } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
-import { Protected, Public } from "../../../decorators";
-import { UserRole } from "@app/types";
+import { Protected, Public, User } from "../../../decorators";
+import { JWTUser, UserRole, UserStatus } from "@app/types";
 import { authServiceTopics } from "../../broker-clients/broker-clients.module";
 
 @Controller()
 export class AuthCommandController {
-  constructor(@Inject(AUTH_SERVICE) private readonly client: ClientKafka) { }
+  constructor(@Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
     const subscribeTopicKeys = authServiceTopics
@@ -42,5 +42,16 @@ export class AuthCommandController {
   @Post('admin/auth/authorize/sign-up')
   signUpAdmin(@Body() body: SignUpAdminDto) {
     return this.client.send<SignUpAdmin.Response, SignUpAdmin.Request>(SignUpAdmin.topic, body)
+  }
+
+  @Protected({
+    allowedRoles: [UserRole.ADMIN, UserRole.USER],
+    allowedStatuses: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.EMAIL_VERIFICATION]
+  })
+  @Get('admin/auth/authorize/refresh')
+  refreshToken(@User() user: JWTUser) {
+    const { id } = user;
+
+    return this.client.send<RefreshToken.Response, RefreshToken.Request>(RefreshToken.topic, { userId: id })
   }
 }
