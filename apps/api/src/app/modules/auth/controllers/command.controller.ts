@@ -5,13 +5,14 @@ import { Body, Controller, Inject, Post } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { Protected, Public } from "../../../decorators";
 import { UserRole } from "@app/types";
+import { authServiceTopics } from "../../broker-clients/broker-clients.module";
 
 @Controller()
 export class AuthCommandController {
   constructor(@Inject(AUTH_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
-    const subscribeTopicKeys = [SignIn.topic, SignUp.topic, SignUpAdmin.topic];
+    const subscribeTopicKeys = authServiceTopics
 
     subscribeTopicKeys.forEach((topic) => this.client.subscribeToResponseOf(topic))
 

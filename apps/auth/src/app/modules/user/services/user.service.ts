@@ -41,4 +41,11 @@ export class UserService {
       }
     })
   }
+
+  findAndCount(take: number, skip: number) {
+    return this.usersRepository.findAndCount({
+      take,
+      skip,
+    })
+  }
 }

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { AuthCommandController } from "./controllers";
 import { ConfigModule } from "@nestjs/config";
+import { UserQueryController } from "./controllers";
 import { BrokerClientsModule } from "../broker-clients/broker-clients.module";
 
 @Module({
@@ -8,7 +8,7 @@ import { BrokerClientsModule } from "../broker-clients/broker-clients.module";
     ConfigModule,
     BrokerClientsModule,
   ],
-  controllers: [AuthCommandController],
+  controllers: [UserQueryController],
   providers: [],
 })
-export class AuthModule {}
+export class UserModule {}
