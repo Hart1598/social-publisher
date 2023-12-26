@@ -28,4 +28,8 @@ export class ExceptionService {
   notFound() {
     throw new RpcException(new RpcErrorMessage('Not found', 404));
   }
+
+  alreadyExist() {
+    throw new RpcException(new RpcErrorMessage('Already exist', 403));
+  }
 }

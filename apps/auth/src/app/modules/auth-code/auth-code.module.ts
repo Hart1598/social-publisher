@@ -3,9 +3,10 @@ import { AuthCodeCommandController, AuthCodeEventController } from "./controller
 import { AuthCodeService } from "./services";
 import { AuthCode } from "./entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserModule } from "../user";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AuthCode])],
+  imports: [TypeOrmModule.forFeature([AuthCode]), UserModule],
   controllers: [AuthCodeEventController, AuthCodeCommandController],
   providers: [AuthCodeService],
   exports: [AuthCodeService]
