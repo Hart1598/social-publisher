@@ -42,3 +42,4 @@ Thumbs.db
 
 envs/*
 .env*
+infrastructure/docker.env

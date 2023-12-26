@@ -1,1 +1,2 @@
-export * from './lib/dtos.module';
+export * from './lib/auth.dto';
+export * from './lib/user.dto'
