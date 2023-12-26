@@ -51,7 +51,7 @@ export class AuthService {
 
     const user = await this.userService.findByEmail(email);
 
-    if(user) throw this.exceptionService.conflict()
+    if(!user) throw this.exceptionService.conflict()
 
     const isValidPassword = await this.cryptoService.compare(password, user.passwordHash);
 
