@@ -5,7 +5,7 @@ import { ClientKafka } from "@nestjs/microservices";
 import { Protected, User } from "../../../decorators";
 import { JWTUser, UserRole } from "@app/types";
 import { GetUserByIdDto, GetUserListDto } from "@app/dtos";
-import { authServiceTopics } from "../../broker-clients/broker-clients.module";
+import { eventBusTopics } from "../../broker-clients/broker-clients.module";
 
 
 @Controller()
@@ -13,7 +13,7 @@ export class UserQueryController {
   constructor(@Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
-    const subscribeTopicKeys = authServiceTopics;
+    const subscribeTopicKeys = eventBusTopics;
 
     subscribeTopicKeys.forEach((topic) => this.client.subscribeToResponseOf(topic))
 

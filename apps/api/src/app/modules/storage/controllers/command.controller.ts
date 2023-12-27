@@ -1,14 +1,14 @@
 import { EVENT_BUS_SERVICE } from "@app/constants";
-import { VerifyAuthCode } from "@app/contracts";
+import { CreateUploadURL } from "@app/contracts";
+import { CreateUploadUrlPayloadDto } from "@app/dtos";
 import { Body, Controller, Inject, Post } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
-import { Protected, User } from "../../../decorators";
 import { eventBusTopics } from "../../broker-clients/broker-clients.module";
-import { JWTUser, UserRole, UserStatus } from "@app/types";
-import { VerifyCodeDto } from "@app/dtos";
+import { User } from "../../../decorators";
+import { JWTUser } from "@app/types";
 
 @Controller()
-export class AuthCodeCommandController {
+export class StorageCommandController {
   constructor(@Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
@@ -24,17 +24,11 @@ export class AuthCodeCommandController {
   }
 
 
-  @Protected({
-    allowedRoles: [UserRole.ADMIN, UserRole.USER],
-    allowedStatuses: [UserStatus.EMAIL_VERIFICATION],
-  })
-  @Post('/auth/verify/email')
-  signUp(@Body() body: VerifyCodeDto, @User() user: JWTUser) {
-    const { code } = body;
-
-    return this.client.send<void, VerifyAuthCode.Request>(VerifyAuthCode.topic, {
-      userId: user.id,
-      code,
+  @Post('storage/upload/url')
+  signUpAdmin(@Body() body: CreateUploadUrlPayloadDto, @User() user: JWTUser) {
+    return this.client.send<CreateUploadURL.Response, CreateUploadURL.Request>(CreateUploadURL.topic, {
+      ...body,
+      userId: user.id
     })
   }
 }

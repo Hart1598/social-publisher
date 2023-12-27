@@ -5,14 +5,14 @@ import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { Protected, Public, User } from "../../../decorators";
 import { JWTUser, UserRole, UserStatus } from "@app/types";
-import { authServiceTopics } from "../../broker-clients/broker-clients.module";
+import { eventBusTopics } from "../../broker-clients/broker-clients.module";
 
 @Controller()
 export class AuthCommandController {
   constructor(@Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
-    const subscribeTopicKeys = authServiceTopics
+    const subscribeTopicKeys = eventBusTopics
 
     subscribeTopicKeys.forEach((topic) => this.client.subscribeToResponseOf(topic))
 

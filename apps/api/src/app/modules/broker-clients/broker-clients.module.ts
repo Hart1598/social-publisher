@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { v4 } from "uuid";
-import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode } from "@app/contracts";
+import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode, CreateUploadURL } from "@app/contracts";
 
-export const authServiceTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic, RefreshToken.topic, VerifyAuthCode.topic];
+export const eventBusTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic, RefreshToken.topic, VerifyAuthCode.topic, CreateUploadURL.topic];
 
 @Module({
   imports: [

@@ -34,7 +34,8 @@ export class PublicStorageListenerService implements OnModuleInit {
         bucketId: message.attributes.bucketId,
         objectGeneration: message.attributes.objectGeneration,
         eventTime: message.attributes.eventTime,
-        publishTime: message.publishTime.toISOString()
+        publishTime: message.publishTime.toISOString(),
+        objectId: message.attributes.objectId,
       }
 
       this.onStorageEvent(event);
