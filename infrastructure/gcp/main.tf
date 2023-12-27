@@ -55,10 +55,10 @@ resource "google_pubsub_topic" "gcs_notifications" {
 
 resource "google_storage_notification" "gcs_notification" {
   bucket         = google_storage_bucket.public_bucket.name
-  topic          = google_pubsub_topic.gcs_notifications.id
+  topic          = var.public_pubsub_storage_topic_name
   event_types    = ["OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"]
   payload_format = "JSON_API_V1"
-  depends_on     = [google_pubsub_topic.gcs_notifications]
+  depends_on     = [google_pubsub_topic.gcs_notifications, google_pubsub_topic_iam_binding.pubsub_storage_publisher, google_pubsub_topic_iam_binding.pubsub_publisher]
 }
 
 resource "google_pubsub_topic_iam_binding" "pubsub_storage_publisher" {
@@ -87,4 +87,8 @@ resource "google_pubsub_subscription" "gcs_subscription" {
   topic   = google_pubsub_topic.gcs_notifications.id
   project = google_project.project.project_id
   ack_deadline_seconds = 20
+}
+
+data "google_storage_project_service_account" "gcs_service_account" {
+  project = var.project_id
 }
