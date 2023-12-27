@@ -46,3 +46,4 @@ infrastructure/docker.env
 infrastructure/gcp/terraform.tfvars
 infrastructure/gcp/.terraform.lock.hcl
 infrastructure/gcp/.terraform/providers/*
+apps/storage/service-account.json
