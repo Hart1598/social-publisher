@@ -86,13 +86,13 @@ export class StorageService {
   async onUpdateStorage(event: StorageEvent) {
     const eventHandlerPromise = this.handlerByEventType(event.eventType);
 
-      if (!eventHandlerPromise) return;
+    if (!eventHandlerPromise) return;
 
-      const eventHandler = await eventHandlerPromise;
+    const eventHandler = await eventHandlerPromise;
 
-      if (eventHandler) {
-        await eventHandler(event);
-      }
+    if (eventHandler) {
+      await eventHandler(event);
+    }
   }
 
   private async handlerByEventType(eventType: StorageEventType) {
