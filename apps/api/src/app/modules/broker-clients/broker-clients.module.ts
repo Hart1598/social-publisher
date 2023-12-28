@@ -3,9 +3,25 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { v4 } from "uuid";
-import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode, CreateUploadURL, DeleteFile, DeleteUserFile } from "@app/contracts";
+import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode, CreateUploadURL, DeleteFile, DeleteUserFile, GetFile, GetUserFile, GetFiles, GetUserFiles, GetUserFilesURL } from "@app/contracts";
 
-export const eventBusTopics = [SignIn.topic, SignUp.topic, SignUpAdmin.topic, GetUserById.topic, GetUserList.topic, RefreshToken.topic, VerifyAuthCode.topic, CreateUploadURL.topic, DeleteFile.topic, DeleteUserFile.topic];
+export const eventBusTopics = [
+  SignIn.topic,
+  SignUp.topic,
+  SignUpAdmin.topic,
+  GetUserById.topic,
+  GetUserList.topic,
+  RefreshToken.topic,
+  VerifyAuthCode.topic,
+  CreateUploadURL.topic,
+  DeleteFile.topic,
+  DeleteUserFile.topic,
+  GetFile.topic,
+  GetUserFile.topic,
+  GetFiles.topic,
+  GetUserFiles.topic,
+  GetUserFilesURL.topic,
+];
 
 @Module({
   imports: [

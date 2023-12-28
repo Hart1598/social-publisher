@@ -4,8 +4,8 @@ import { CreateUploadUrlPayloadDto, DeleteFileSchemaDto } from "@app/dtos";
 import { Body, Controller, Delete, Inject, Param, Post } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { eventBusTopics } from "../../broker-clients/broker-clients.module";
-import { User } from "../../../decorators";
-import { JWTUser } from "@app/types";
+import { Protected, User } from "../../../decorators";
+import { JWTUser, UserRole } from "@app/types";
 
 @Controller()
 export class StorageCommandController {
@@ -32,6 +32,9 @@ export class StorageCommandController {
     })
   }
 
+  @Protected({
+    allowedRoles: [UserRole.ADMIN]
+  })
   @Delete('admin/storage/file/:fileId')
   deleteFile(@Param() params: DeleteFileSchemaDto) {
     return this.client.send<DeleteFile.Response, DeleteFile.Request>(DeleteFile.topic, params)

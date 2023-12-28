@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, In, Repository } from "typeorm";
 import { File } from "../entities/file.entity";
 
 @Injectable()
@@ -30,6 +30,31 @@ export class FileService {
     return this.repository.findOne({
       where: {
         id,
+      }
+    })
+  }
+
+  findByIds(ids: string[]) {
+    return this.repository.find({
+      where: {
+        id: In(ids)
+      }
+    })
+  }
+
+  findByIdsAndUserId(ids: string[], userId: string) {
+    return this.repository.find({
+      where: {
+        id: In(ids),
+        userId,
+      }
+    })
+  }
+
+  findByUserId(userId: string) {
+    return this.repository.find({
+      where: {
+        userId
       }
     })
   }

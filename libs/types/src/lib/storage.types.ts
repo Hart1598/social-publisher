@@ -22,3 +22,7 @@ export interface File {
   bucketId: string;
   createdAt: Date;
 }
+
+export interface FileUrlPayload {
+  [fileId: string]: string;
+}

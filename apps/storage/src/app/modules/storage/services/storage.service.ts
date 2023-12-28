@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Storage } from '@google-cloud/storage';
 import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
-import { StorageEvent, StorageEventType } from '@app/types';
+import { File, FileUrlPayload, StorageEvent, StorageEventType } from '@app/types';
 import { FileService } from '../../file/services/file.service';
 import { ExceptionService } from '@app/utils';
 
@@ -103,6 +103,35 @@ export class StorageService {
       url,
       id,
     };
+  }
+
+  async generateReadFileSignedURL(file: File) {
+    const [url] = await this.storageClient.bucket(file.bucketId).file(file.path).getSignedUrl({
+      version: 'v4',
+      action: 'read',
+      expires: this.getFileUploadExpiresAt(),
+    })
+
+    return {
+      [file.id]: url,
+    }
+  }
+
+  async generateReadFileSignedURLs(files: File[]) {
+    const urlPromises = files.map((file) => this.generateReadFileSignedURL(file));
+
+    const urls = await Promise.all(urlPromises);
+
+    const payload = urls.reduce<FileUrlPayload>((map, fileUrl) => {
+      const nextMap = {
+        ...map,
+        ...fileUrl,
+      }
+
+      return nextMap;
+    }, {})
+
+    return payload
   }
 
   extractFileIdFormObjectId(objectId: string) {

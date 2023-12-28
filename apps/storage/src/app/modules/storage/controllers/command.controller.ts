@@ -7,7 +7,8 @@ import { StorageService } from '../services';
 @Controller()
 export class StorageCommandController  {
   constructor(
-    private readonly storageService: StorageService) {}
+    private readonly storageService: StorageService
+    ) {}
 
   @MessagePattern(CreateUploadURL.topic)
   async createUploadURL(@Payload() params: CreateUploadURL.Request): Promise<CreateUploadURL.Response> {
