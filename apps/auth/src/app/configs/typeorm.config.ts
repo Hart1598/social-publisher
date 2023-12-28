@@ -40,7 +40,7 @@ const prodConfig: TypeOrmModuleOptions = {
 const isDev = process.env.NODE_ENV === 'development'
 
 const config =
-  !isDev ? developmentConfig : prodConfig;
+  isDev ? developmentConfig : prodConfig;
 
 export default config;
 

@@ -43,3 +43,10 @@ Thumbs.db
 envs/*
 .env*
 infrastructure/docker.env
+infrastructure/gcp/terraform.tfvars
+infrastructure/gcp/.terraform.lock.hcl
+infrastructure/gcp/.terraform/*
+apps/storage/service-account.json
+infrastructure/storage.env
+infrastructure/database.env
+infrastructure/init-db.sql

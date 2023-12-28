@@ -3,7 +3,7 @@ import { VerifyAuthCode } from "@app/contracts";
 import { Body, Controller, Inject, Post } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { Protected, User } from "../../../decorators";
-import { authServiceTopics } from "../../broker-clients/broker-clients.module";
+import { eventBusTopics } from "../../broker-clients/broker-clients.module";
 import { JWTUser, UserRole, UserStatus } from "@app/types";
 import { VerifyCodeDto } from "@app/dtos";
 
@@ -12,7 +12,7 @@ export class AuthCodeCommandController {
   constructor(@Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka) { }
 
   async onModuleInit() {
-    const subscribeTopicKeys = authServiceTopics
+    const subscribeTopicKeys = eventBusTopics
 
     subscribeTopicKeys.forEach((topic) => this.client.subscribeToResponseOf(topic))
 

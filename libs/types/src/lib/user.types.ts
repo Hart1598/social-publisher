@@ -21,3 +21,4 @@ export interface User {
 }
 
 export type PublicUser = Omit<User, 'passwordHash'>
+

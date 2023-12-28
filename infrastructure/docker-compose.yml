@@ -33,6 +33,13 @@ services:
       - '5432:5432'
     env_file:
       - docker.env
+  storage_postgres:
+    container_name: storage_postgres
+    image: postgres:latest
+    ports:
+      - '5433:5432'
+    env_file:
+      - storage.env
 volumes:
   kafka-volume:
   zookeeper-volume:
