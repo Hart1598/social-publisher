@@ -34,6 +34,15 @@ export class FileService {
     })
   }
 
+  findByIdAndUserId(id: string, userId: string) {
+    return this.repository.findOne({
+      where: {
+        id,
+        userId,
+      }
+    })
+  }
+
   findAndCount(take: number, skip: number) {
     return this.repository.findAndCount({
       take,

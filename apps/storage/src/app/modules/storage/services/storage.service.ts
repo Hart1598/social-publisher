@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
 import { StorageEvent, StorageEventType } from '@app/types';
 import { FileService } from '../../file/services/file.service';
+import { ExceptionService } from '@app/utils';
 
 export interface GenerateUploadSignedURLParams {
   contentType: string;
@@ -19,10 +20,35 @@ export class StorageService {
   constructor(
     private readonly configService: ConfigService,
     private readonly fileService: FileService,
+    private readonly exceptionService: ExceptionService,
   ) {
     const publicBucketName = this.configService.getOrThrow<string>('PUBLIC_BUCKET_NAME');
 
     this.publicBucketName = publicBucketName;
+  }
+
+  private async deleteStorageObject(objectId: string) {
+    const bucket = this.storageClient.bucket(this.publicBucketName);
+
+    const file = bucket.file(objectId)
+
+    await file.delete()
+  }
+
+  async deleteFile(fileId: string) {
+    const file = await this.fileService.findById(fileId)
+
+    if(!file) throw this.exceptionService.notFound()
+
+    await this.deleteStorageObject(file.path);
+  }
+
+  async deleteUserFile(fileId: string, userId: string) {
+    const file = await this.fileService.findByIdAndUserId(fileId, userId)
+
+    if(!file) throw this.exceptionService.notFound()
+
+    await this.deleteStorageObject(file.path);
   }
 
   private generateFilePath = () => {
