@@ -3,7 +3,7 @@ import { GetUserById, GetUserList } from "@app/contracts";
 import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { Protected, User } from "../../../decorators";
-import { JWTUser, UserRole } from "@app/types";
+import { JWTUser, UserRole, UserStatus } from "@app/types";
 import { GetUserByIdDto, GetUserListDto } from "@app/dtos";
 import { eventBusTopics } from "../../broker-clients/broker-clients.module";
 
@@ -39,7 +39,8 @@ export class UserQueryController {
   }
 
   @Protected({
-    allowedRoles: [UserRole.USER, UserRole.ADMIN]
+    allowedRoles: [UserRole.USER, UserRole.ADMIN],
+    allowedStatuses: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.EMAIL_VERIFICATION]
   })
   @Get('auth/user/me')
   getCurrentUser(@User() user: JWTUser) {

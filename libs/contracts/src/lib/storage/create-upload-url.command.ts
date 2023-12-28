@@ -6,5 +6,8 @@ export namespace CreateUploadURL {
 
   export type Request = z.infer<typeof createUploadUrlSchema>
 
-  export type Response = string;
+  export type Response = {
+    url: string;
+    id: string;
+  };
 }

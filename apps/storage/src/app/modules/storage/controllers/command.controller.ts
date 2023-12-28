@@ -10,12 +10,13 @@ export class StorageCommandController  {
 
   @MessagePattern(CreateUploadURL.topic)
   async createUploadURL(@Payload() params: CreateUploadURL.Request): Promise<CreateUploadURL.Response> {
-    const { contentType } = params;
+    const { contentType, userId } = params;
 
-    const { url, id } = await this.storageService.generateUploadSignedURL({ contentType })
+    const { url, id } = await this.storageService.generateUploadSignedURL({ contentType, userId })
 
-    console.log({ id })
-
-    return url;
+    return {
+      url,
+      id,
+    }
   }
 }

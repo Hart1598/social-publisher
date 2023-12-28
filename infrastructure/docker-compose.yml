@@ -37,12 +37,9 @@ services:
     container_name: storage_postgres
     image: postgres:latest
     ports:
-      - '5433:5433'
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=storage
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - '5433:5432'
+    env_file:
+      - storage.env
 volumes:
   kafka-volume:
   zookeeper-volume:

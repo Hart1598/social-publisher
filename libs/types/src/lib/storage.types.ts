@@ -9,3 +9,16 @@ export interface StorageEvent {
   eventTime: string;
   publishTime: string;
 }
+
+export type FileStatus = 'active' | 'archived'
+
+export interface File {
+  id: string;
+  path: string;
+  status: FileStatus
+  userId: string;
+  contentType: string;
+  contentSize: number;
+  bucketId: string;
+  createdAt: Date;
+}

@@ -3,14 +3,13 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { envPath } from './env.config';
-import { User } from '../modules/user/entity/user.entity';
+
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { AuthCode } from '../modules/auth-code/entity';
+import { File } from '../modules/file/entities/file.entity';
 
 dotenvConfig({ path: envPath });
 
-const entities = [User, AuthCode];
-
+const entities = [File];
 
 const baseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
