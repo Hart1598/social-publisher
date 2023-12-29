@@ -1,0 +1,53 @@
+{
+  "name": "external-auth",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/external-auth/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/external-auth",
+        "main": "apps/external-auth/src/main.ts",
+        "tsConfig": "apps/external-auth/tsconfig.app.json",
+        "assets": ["apps/external-auth/src/assets"],
+        "webpackConfig": "apps/external-auth/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "external-auth:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "external-auth:build:development"
+        },
+        "production": {
+          "buildTarget": "external-auth:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/external-auth/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
