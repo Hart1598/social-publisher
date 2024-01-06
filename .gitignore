@@ -50,3 +50,4 @@ apps/storage/service-account.json
 infrastructure/storage.env
 infrastructure/database.env
 infrastructure/init-db.sql
+infrastructure/external-auth.env
