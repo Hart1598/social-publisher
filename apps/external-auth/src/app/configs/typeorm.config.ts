@@ -3,12 +3,14 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { envPath } from './env.config';
+
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Account } from '../modules/account/entities';
+import { AccountToken } from '../modules/account-token/entities';
 
 dotenvConfig({ path: envPath });
 
-const entities = [];
-
+const entities = [Account, AccountToken];
 
 const baseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -18,6 +20,7 @@ const baseConfig: TypeOrmModuleOptions = {
   migrationsRun: true,
   namingStrategy: new SnakeNamingStrategy(),
   host: process.env.DATABASE_HOST,
+  port: parseInt(`${process.env.DATABASE_PORT}`),
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
