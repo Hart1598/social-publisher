@@ -1,4 +1,4 @@
-export enum AccountEnum {
+export enum AccountProvider {
   GOOGLE = 'google',
   TIKTOK = 'tiktok',
 }
@@ -11,7 +11,7 @@ export enum AccountStatus {
 export interface Account {
   id: string;
   userId: string;
-  provider: AccountEnum;
+  provider: AccountProvider;
   status: AccountStatus;
   expiresAt: Date;
 }
@@ -21,4 +21,9 @@ export interface AccountToken {
   accountId: string;
   tokenHash: string;
   name: string;
+}
+
+export enum TokenType {
+  ACCESS = 'access',
+  REFRESH = 'refresh',
 }

@@ -1,3 +1,4 @@
+import { ExceptionService } from "@app/utils";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { google, Auth } from 'googleapis';
@@ -12,7 +13,10 @@ export class GoogleAuthService {
     'https://www.googleapis.com/auth/userinfo.profile',
   ]
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly exceptionService: ExceptionService,
+    ) {
     const client = new google.auth.OAuth2(
       this.configService.getOrThrow('GOOGLE_CLIENT_ID'),
       this.configService.getOrThrow('GOOGLE_CLIENT_SECRET'),
@@ -22,17 +26,22 @@ export class GoogleAuthService {
     this.client = client;
   }
 
-  generateAuthUrl() {
+  generateAuthUrl(userId: string) {
     const url = this.client.generateAuthUrl({
       access_type: 'offline',
       scope: this.scopes,
+      state: userId,
     });
 
     return url;
   }
 
   async authByCode(code: string) {
-    const { tokens } = await this.client.getToken(code)
+    const { tokens, res } = await this.client.getToken(code)
+
+    if (res.status !== 200) {
+      throw this.exceptionService.unauthorized()
+    }
 
     return tokens;
   }

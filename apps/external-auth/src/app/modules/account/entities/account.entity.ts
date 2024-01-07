@@ -1,6 +1,7 @@
-import { AccountEnum, AccountStatus } from '@app/types';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { AccountProvider, AccountStatus } from '@app/types';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Account as IAccount } from '@app/types'
+import { AccountToken } from '../../account-token/entities';
 
 @Entity()
 export abstract class Account implements IAccount {
@@ -11,11 +12,14 @@ export abstract class Account implements IAccount {
   userId: string;
 
   @Column({ type: 'varchar' })
-  provider: AccountEnum;
+  provider: AccountProvider;
 
   @Column({ type: 'varchar' })
   status: AccountStatus;
 
   @Column({ type: 'timestamptz' })
   expiresAt: Date;
+
+  @OneToMany(() => AccountToken, token => token.accountId)
+  tokens: AccountToken[]
 }

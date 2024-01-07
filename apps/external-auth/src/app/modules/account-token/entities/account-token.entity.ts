@@ -1,13 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { AccountToken as IAccountToken } from '@app/types'
-import { Account } from '../../account/entities';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { AccountToken as IAccountToken, TokenType } from '@app/types'
 
 @Entity()
 export abstract class AccountToken implements IAccountToken {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @ManyToOne(() => Account, account => account.id)
   @Column({ type: 'varchar' })
   accountId: string;
 
@@ -16,4 +14,13 @@ export abstract class AccountToken implements IAccountToken {
 
   @Column({ type: 'varchar' })
   name: string;
+
+  @Column({ type: 'varchar' })
+  type: TokenType;
+
+  @Column({ type: 'timestamptz' })
+  expiresAt: Date;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date;
 }

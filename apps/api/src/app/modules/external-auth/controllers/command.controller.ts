@@ -3,7 +3,8 @@ import { eventBusTopics } from "../../broker-clients/broker-clients.module";
 import { ClientKafka } from "@nestjs/microservices";
 import { EVENT_BUS_SERVICE } from "@app/constants";
 import { GoogleCallback, GoogleSignInUrl } from "@app/contracts";
-import { Public } from "../../../decorators";
+import { Public, User } from "../../../decorators";
+import { JWTUser } from "@app/types";
 
 @Controller()
 export class ExternalAuthCommandController {
@@ -22,13 +23,15 @@ export class ExternalAuthCommandController {
   }
 
   @Post('external-auth/google/auth')
-  googleSignInUrl() {
-    return this.client.send<GoogleSignInUrl.Response, GoogleSignInUrl.Request>(GoogleSignInUrl.topic, {})
+  googleSignInUrl(@User() user: JWTUser) {
+    return this.client.send<GoogleSignInUrl.Response, GoogleSignInUrl.Request>(GoogleSignInUrl.topic, {
+      userId: user.id
+    })
   }
 
   @Public()
   @Get('external-auth/google/callback')
-  googleCallback(@Query('code') code: string) {
-    return this.client.send<GoogleCallback.Response, GoogleCallback.Request>(GoogleCallback.topic, { code })
+  googleCallback(@Query('code') code: string, @Query('state') state: string) {
+    return this.client.send<GoogleCallback.Response, GoogleCallback.Request>(GoogleCallback.topic, { code, userId: state })
   }
 }
