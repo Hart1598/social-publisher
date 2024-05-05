@@ -32,4 +32,8 @@ export class ExceptionService {
   alreadyExist() {
     throw new RpcException(new RpcErrorMessage('Already exist', 403));
   }
+
+  unauthorized() {
+    throw new RpcException(new RpcErrorMessage('Unauthorized', 401));
+  }
 }

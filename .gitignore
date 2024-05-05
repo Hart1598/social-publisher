@@ -51,3 +51,4 @@ infrastructure/storage.env
 infrastructure/database.env
 infrastructure/init-db.sql
 *.env
+infrastructure/external-auth.env
