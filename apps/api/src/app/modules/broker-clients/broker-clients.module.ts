@@ -1,8 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
+import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT } from "@app/constants";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { v4 } from "uuid";
 import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode, CreateUploadURL, DeleteFile, DeleteUserFile, GetFile, GetUserFile, GetFiles, GetUserFiles, GetUserFilesURL, GoogleCallback, GoogleSignInUrl, TikTokCallback, TikTokSignInUrl } from "@app/contracts";
 
 export const eventBusTopics = [
@@ -44,9 +43,6 @@ export const eventBusTopics = [
                 client: {
                   clientId: EVENT_BUS_SERVICE_CLIENT,
                   brokers: [broker],
-                },
-                consumer: {
-                  groupId: `${AUTH_CONSUMER_GROUP_ID}_${v4()}`,
                 },
               },
             };
