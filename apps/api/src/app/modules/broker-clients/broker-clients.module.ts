@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { EVENT_BUS_SERVICE, EVENT_BUS_SERVICE_CLIENT, AUTH_CONSUMER_GROUP_ID } from "@app/constants";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { v4 } from "uuid";
-import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode, CreateUploadURL, DeleteFile, DeleteUserFile, GetFile, GetUserFile, GetFiles, GetUserFiles, GetUserFilesURL } from "@app/contracts";
+import { SignIn, SignUp, SignUpAdmin, GetUserById, GetUserList, RefreshToken, VerifyAuthCode, CreateUploadURL, DeleteFile, DeleteUserFile, GetFile, GetUserFile, GetFiles, GetUserFiles, GetUserFilesURL, GoogleCallback, GoogleSignInUrl, TikTokCallback, TikTokSignInUrl } from "@app/contracts";
 
 export const eventBusTopics = [
   SignIn.topic,
@@ -21,6 +21,10 @@ export const eventBusTopics = [
   GetFiles.topic,
   GetUserFiles.topic,
   GetUserFilesURL.topic,
+  GoogleSignInUrl.topic,
+  GoogleCallback.topic,
+  TikTokSignInUrl.topic,
+  TikTokCallback.topic
 ];
 
 @Module({
@@ -55,4 +59,4 @@ export const eventBusTopics = [
   controllers: [],
   providers: [],
 })
-export class BrokerClientsModule {}
+export class BrokerClientsModule { }
