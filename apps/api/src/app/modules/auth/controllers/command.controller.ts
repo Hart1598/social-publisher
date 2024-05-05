@@ -30,6 +30,7 @@ export class AuthCommandController {
     return this.client.send<SignIn.Response, SignIn.Request>(SignIn.topic, body)
   }
 
+
   @Public()
   @Post('/auth/authorize/sign-up')
   signUp(@Body() body: SignUpDto) {
