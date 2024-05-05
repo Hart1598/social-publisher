@@ -1,0 +1,6 @@
+export * from './create-post.command'
+export * from './get-post.query'
+export * from './get-posts.query'
+export * from './remove-post.command'
+export * from './update-post.command'
+export * from './on-update-post.event'
