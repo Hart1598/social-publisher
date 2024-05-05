@@ -12,7 +12,7 @@ export class GoogleCommandController {
   constructor(
     private readonly googleAuthService: GoogleAuthService,
     @Inject(EVENT_BUS_SERVICE) private readonly client: ClientKafka
-    ) {}
+  ) { }
 
   @MessagePattern(GoogleSignInUrl.topic)
   async signInUrl(@Payload() params: GoogleSignInUrl.Request): Promise<GoogleSignInUrl.Response> {
@@ -46,7 +46,7 @@ export class GoogleCommandController {
       userId: userId,
     }
 
-    this.client.emit<OnSuccessSignIn.Response, OnSuccessSignIn.Request>(OnSuccessSignIn.topic, successSingInEvent);
+    await this.client.emit<OnSuccessSignIn.Response, OnSuccessSignIn.Request>(OnSuccessSignIn.topic, successSingInEvent);
 
     return null;
   }

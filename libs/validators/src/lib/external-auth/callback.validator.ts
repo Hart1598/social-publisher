@@ -5,3 +5,8 @@ export const callbackRequestSchema = z.object({
   userId: z.string()
 }).required()
 
+export const tiktokCallbackRequestSchema = z.object({
+  code: z.string(),
+  csrfToken: z.string()
+}).required()
+

@@ -8,3 +8,12 @@ export namespace GoogleSignInUrl {
 
   export type Response = z.infer<typeof googleSingInUrlResponseSchema>
 }
+
+
+export namespace TikTokSignInUrl {
+  export const topic = 'auth-external.command.tiktok-sign-in-url'
+
+  export type Request = z.infer<typeof googleSingInUrlRequestSchema>
+
+  export type Response = z.infer<typeof googleSingInUrlResponseSchema>
+}
